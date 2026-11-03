@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실시간 공기 신호등</title>
+  <!-- Pretendard 웹폰트 로드 -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Chart.js CDN 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 상단 헤더 영역 -->
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="title-wrap">
+        <span class="logo-icon">🚦</span>
+        <h1>실시간 공기 신호등</h1>
+      </div>
+      <!-- 시도 선택 드롭다운 -->
+      <div class="select-box">
+        <label for="sidoSelect">지역 선택</label>
+        <select id="sidoSelect">
+          <option value="서울">서울</option>
+          <option value="전국">전국</option>
+          <option value="부산">부산</option>
+          <option value="대구">대구</option>
+          <option value="인천">인천</option>
+          <option value="광주">광주</option>
+          <option value="대전">대전</option>
+          <option value="울산">울산</option>
+          <option value="세종">세종</option>
+          <option value="경기">경기</option>
+          <option value="강원">강원</option>
+          <option value="충북">충북</option>
+          <option value="충남">충남</option>
+          <option value="전북">전북</option>
+          <option value="전남">전남</option>
+          <option value="경북">경북</option>
+          <option value="경남">경남</option>
+          <option value="제주">제주</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 공기 신호등 대표 상태 표시 영역 -->
+    <section class="traffic-section">
+      <div id="trafficCard" class="traffic-card state-loading">
+        <!-- 상단 지역 및 측정 시각 뱃지 -->
+        <div class="traffic-top">
+          <span id="selectedRegionName" class="region-badge">서울</span>
+          <span id="trafficTime" class="time-badge">불러오는 중...</span>
+        </div>
+
+        <!-- 초대형 대표 상태 표시 (이모지 + 상태명 + 평균 수치) -->
+        <div class="traffic-main">
+          <div id="trafficEmoji" class="traffic-emoji">⏳</div>
+          <div class="traffic-info">
+            <div id="trafficGrade" class="traffic-grade">불러오는 중...</div>
+            <div class="traffic-value-row">
+              <span class="traffic-val-label">평균 미세먼지</span>
+              <span id="averagePm10" class="traffic-val">-</span>
+              <span class="traffic-unit">㎍/㎥</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 그 아래 한 줄 안내 문구 (나쁨 이상: '외출 시 마스크를 챙기세요') -->
+        <div class="traffic-advice-wrap">
+          <p id="trafficAdvice" class="traffic-advice">데이터를 불러오는 중입니다...</p>
+        </div>
+
+        <!-- 집계 요약 정보 -->
+        <p id="averageStatus" class="traffic-subtext"></p>
+      </div>
+    </section>
+
+    <!-- 측정소별 미세먼지 상위 10개소 가로 막대그래프 섹션 -->
+    <section class="chart-section">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title-wrap">
+            <h2 class="chart-title">📊 미세먼지 높은 곳 TOP 10</h2>
+            <p class="chart-desc">수치가 높은 순서대로 상위 10개 측정소입니다</p>
+          </div>
+          <span class="chart-unit-badge">단위: ㎍/㎥</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="dustChart"></canvas>
+          <div id="chartEmptyMessage" class="chart-empty-msg" style="display: none;">
+            표시할 유효한 측정소 데이터가 없습니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 측정소 카드 목록 영역 -->
+    <section class="cards-section">
+      <div class="section-header">
+        <h2 class="section-title">측정소별 상세 정보</h2>
+        <span id="stationCount" class="station-count"></span>
+      </div>
+      <div id="cardList" class="card-grid">
+        <!-- 자바스크립트로 동적 카드 생성 -->
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
